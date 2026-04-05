@@ -1,6 +1,11 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -11,19 +16,22 @@ public class Componente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
 
+    @NotBlank(message = "La categoría es obligatoria")
     private String categoria;
 
-    // 👇 CAMBIA Double a BigDecimal
+    @NotNull(message = "El precio es obligatorio")
+    @DecimalMin(value = "0.01", message = "El precio debe ser mayor que 0")
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal precio;
 
+    @NotNull(message = "El stock es obligatorio")
+    @Min(value = 0, message = "El stock no puede ser negativo")
     private Integer stock;
 
     public Componente() {}
-
-    // getters y setters
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
